@@ -7,16 +7,17 @@ const leadsRouter = require("./routes/leads");
 const analyzeRouter = require("./routes/analyze");
 const outreachRouter = require("./routes/outreach");
 const scoreRouter = require("./routes/score");
+const requireApiKey = require("./middleware/auth");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/leads", leadsRouter);
-app.use("/api/analyze", analyzeRouter);
-app.use("/api/outreach", outreachRouter);
-app.use("/api/score", scoreRouter);
+app.use("/api/leads", requireApiKey, leadsRouter);
+app.use("/api/analyze", requireApiKey, analyzeRouter);
+app.use("/api/outreach", requireApiKey, outreachRouter);
+app.use("/api/score", requireApiKey, scoreRouter);
 
 app.get("/", (req, res) => {
   res.json({

@@ -30,9 +30,9 @@ Scoring criteria and max points:
 - recommended_offer_fit (0-15): How well the recommended offer matches the business's actual situation.
 
 Priority tiers:
-- high: score >= 70
-- medium: score >= 45
-- low: score < 45
+- high: score 80 to 100
+- medium: score 50 to 79
+- low: score 0 to 49
 
 Be realistic and critical. Do not inflate scores just because a lead exists. Penalize missing contact info, unclear fit, test/fake businesses, or vague analysis.
 
@@ -100,13 +100,16 @@ score must be an integer from 0 to 100. priority must be exactly one of: high, m
     throw new Error("AI returned invalid JSON: " + raw);
   }
 
-  // Enforce priority based on score in case the model is inconsistent
-  const s = scoreResult.score;
-  if (s >= 70) scoreResult.priority = "high";
-  else if (s >= 45) scoreResult.priority = "medium";
-  else scoreResult.priority = "low";
+  // Always override AI priority with the authoritative calculation
+  scoreResult.priority = getPriorityFromScore(scoreResult.score);
 
   return scoreResult;
 }
 
-module.exports = { scoreLead };
+function getPriorityFromScore(score) {
+  if (score >= 80) return "high";
+  if (score >= 50) return "medium";
+  return "low";
+}
+
+module.exports = { scoreLead, getPriorityFromScore };

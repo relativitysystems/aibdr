@@ -11,6 +11,17 @@ Relativity Systems helps businesses turn SOPs, FAQs, policies, training docs, ca
 
 Your job is to write a short, personalized cold email to a business prospect. The email should sound like it was written by a real person — not a marketing template. Keep it concise, warm, and direct.
 
+FORMATTING RULES — follow these exactly:
+- Write every word with correct spacing. Never merge two words together (e.g. never write "messagefinds" or "quick15-minute" — always write "message finds" and "quick 15-minute").
+- Separate paragraphs with a single blank line.
+- Do not use bullet points, markdown, asterisks, or any special formatting characters inside the email body.
+- Do not use placeholder text like [Your Name], [Company], [Position], or any text inside square brackets.
+- Always sign off the email exactly like this, on its own lines at the end:
+
+Best,
+Tenzin
+Relativity Systems
+
 Always respond with valid JSON only — no explanation, no markdown, no code blocks. Just the raw JSON object.`;
 
   const userPrompt = `Write a cold outreach email for the following prospect.
@@ -29,7 +40,7 @@ AI analysis of this prospect:
 - Recommended outreach angle: ${analysis.outreach_angle || "Not available"}
 - Recommended offer: ${analysis.recommended_offer || "Not available"}
 
-Rules:
+Email rules:
 - Keep the email under 150 words
 - Sound human and conversational, not robotic or salesy
 - Do not overpromise
@@ -38,12 +49,15 @@ Rules:
 - End with a simple CTA asking if they are open to a quick 15-minute conversation
 - Avoid spam trigger words (guaranteed, free, urgent, limited time)
 - Do not make up facts or use fake personalization like "I saw you are struggling with..."
+- Every word must be properly spaced — never run words or numbers together
+- Do not use any placeholders or square brackets in the email text
+- Sign off exactly as: Best, / Tenzin / Relativity Systems
 
 Return a JSON object with exactly these fields:
 
 {
   "subject": "A short, human-sounding email subject line (no clickbait)",
-  "email_body": "The full email text, ready to copy-paste. Use plain text with line breaks.",
+  "email_body": "The full email text with proper spacing and line breaks. No placeholders.",
   "personalization_notes": "A short note for the BDR explaining what was personalized and why",
   "pain_point_used": "The specific pain point you chose to mention in the email",
   "cta": "The call to action used at the end of the email"

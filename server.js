@@ -6,6 +6,7 @@ const cors = require("cors");
 const leadsRouter = require("./routes/leads");
 const analyzeRouter = require("./routes/analyze");
 const outreachRouter = require("./routes/outreach");
+const scoreRouter = require("./routes/score");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api/leads", leadsRouter);
 app.use("/api/analyze", analyzeRouter);
 app.use("/api/outreach", outreachRouter);
+app.use("/api/score", scoreRouter);
 
 app.get("/", (req, res) => {
   res.json({

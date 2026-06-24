@@ -10,6 +10,30 @@ const openai = new OpenAI({
 });
 
 /**
+ * Cleans up common formatting issues in AI-generated email text.
+ * Preserves intentional paragraph breaks (double newlines).
+ */
+function cleanEmailBody(text) {
+  return (
+    text
+      // Normalize Windows line endings
+      .replace(/\r\n/g, "\n")
+      // Fix merged number+word like "quick15-minute" → "quick 15-minute"
+      .replace(/([a-z])(\d)/g, "$1 $2")
+      // Fix merged word+number like "message10" → "message 10"
+      .replace(/(\d)([a-zA-Z])/g, "$1 $2")
+      // Collapse runs of 3+ newlines down to 2 (one blank line between paragraphs)
+      .replace(/\n{3,}/g, "\n\n")
+      // Remove leading/trailing spaces on each line
+      .split("\n")
+      .map((line) => line.trim())
+      .join("\n")
+      // Final trim of the whole body
+      .trim()
+  );
+}
+
+/**
  * Generates a cold outreach email draft for a lead.
  * @param {Object} lead - The full lead row from Supabase (must include analysis)
  * @returns {Object} Structured outreach JSON with subject, email_body, etc.
@@ -34,6 +58,10 @@ async function generateOutreachDraft(lead) {
     outreach = JSON.parse(raw);
   } catch (err) {
     throw new Error("AI returned invalid JSON: " + raw);
+  }
+
+  if (outreach.email_body) {
+    outreach.email_body = cleanEmailBody(outreach.email_body);
   }
 
   return outreach;

@@ -7,6 +7,7 @@ const leadsRouter = require("./routes/leads");
 const analyzeRouter = require("./routes/analyze");
 const outreachRouter = require("./routes/outreach");
 const scoreRouter = require("./routes/score");
+const scrapeRouter = require("./routes/scrape");
 const requireApiKey = require("./middleware/auth");
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/api/leads", requireApiKey, leadsRouter);
 app.use("/api/analyze", requireApiKey, analyzeRouter);
 app.use("/api/outreach", requireApiKey, outreachRouter);
 app.use("/api/score", requireApiKey, scoreRouter);
+app.use("/api/scrape", requireApiKey, scrapeRouter);
 
 app.get("/", (req, res) => {
   res.json({
